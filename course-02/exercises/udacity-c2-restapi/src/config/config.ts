@@ -1,8 +1,9 @@
+require('dotenv').config();
 export const config = {
   "dev": {
     "username": process.env.POSTGRES_USERNAME,// "hellopostgres",
     "password": process.env.POSTGRES_PASSWORD,//"hellopostgres",
-    "database": process.env.POSTGRES_DATABASE,//"hellopostgres",
+    "database": process.env.POSTGRES_DATABASE,//"hellopostgres",N
     "host": process.env.POSTGRES_HOST,//"hellopostgres.ctfqokbwtlld.us-east-1.rds.amazonaws.com",
     "dialect": process.env.DATABASE_DIALECT,//"postgres",
     "aws_region": process.env.AWS_REGION,//"us-east-1",
@@ -10,7 +11,7 @@ export const config = {
     "aws_media_bucket": process.env.S3_BUCKET_NAME,//"udagram-aleo-dev"
   },
   "jwt": {
-    "secret": " "
+    "secret": "helloworld"
   },
   "prod": {
     "username": "",
