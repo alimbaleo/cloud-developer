@@ -33,11 +33,36 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   
   // Root Endpoint
   // Displays a simple message to the user
+  app.get( "/filteredimage", async ( req, res ) => {
+    console.log('heeeeeeeeeeeereeeeeeeee');
+
+    let { image_url } = req.query;
+    console.log(image_url);
+
+    if(image_url){
+      let filteredUrl = await filterImageFromURL(image_url);
+      console.log(filteredUrl);
+      res.sendFile(filteredUrl, err => {
+        if (err) {
+          console.log(err);
+          res.sendStatus(500);
+      }
+      let files: string[] = [];
+      files.push(filteredUrl);
+      deleteLocalFiles(files);
+      });
+    }
+    else{
+      res.status(500).send("Invalid image URL");
+    }
+  } );
+  
   app.get( "/", async ( req, res ) => {
     res.send("try GET /filteredimage?image_url={{}}")
   } );
   
-
+  
+  
   // Start the Server
   app.listen( port, () => {
       console.log( `server running http://localhost:${ port }` );
