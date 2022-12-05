@@ -22,7 +22,7 @@ export class TodosAccess{
         const result = await this.docClient.query({
             TableName: this.todosTable,
             IndexName: this.todosIndex,
-            KeyConditionExpression: 'UserId = :userId',
+            KeyConditionExpression: 'userId = :userId',
             ExpressionAttributeValues: {
                 ':userId': userId
             }
@@ -54,10 +54,11 @@ export class TodosAccess{
             },
             ExpressionAttributeNames:{
                 '#name': 'name'
-            }
+            },
+            ReturnValues: 'UPDATED_NEW'
         }).promise();
 
-        return todoUpdate;
+        return todoUpdate as TodoUpdate;
     }
     async updateTodoAttachmentUrl(todoId: string, userId: string, url: string): Promise<void>{
         logger.info('update todos');

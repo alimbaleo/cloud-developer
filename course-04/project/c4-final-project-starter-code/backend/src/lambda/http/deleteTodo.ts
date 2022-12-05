@@ -4,16 +4,20 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import * as middy from 'middy'
 import { cors, httpErrorHandler } from 'middy/middlewares'
 
-import { createAttachmentPresignedUrl } from '../../businessLogic/todos'
+import { deleteTodo } from '../../businessLogic/todos'
 import { getUserId } from '../utils'
 
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     const todoId = event.pathParameters.todoId
-    // TODO: Return a presigned URL to upload a file for a TODO item with the provided id
-    
+    // TODO: Remove a TODO item by id
+    const user = getUserId(event);
 
-    return undefined
+     await deleteTodo(user, todoId);
+     return {
+      statusCode: 204,
+      body: ''
+     }
   }
 )
 

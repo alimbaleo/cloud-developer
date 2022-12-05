@@ -5,6 +5,7 @@ import { CreateTodoRequest } from '../requests/CreateTodoRequest'
 // import { UpdateTodoRequest } from '../requests/UpdateTodoRequest'
 import { createLogger } from '../utils/logger'
 import * as uuid from 'uuid'
+import { UpdateTodoRequest } from '../requests/UpdateTodoRequest';
 // import * as createError from 'http-errors'
 
 // TODO: Implement businessLogic
@@ -12,6 +13,10 @@ const logger = createLogger('TodosAccess')
 const attachmentUtils = new AttachmentUtils()
 const todosAcess = new TodosAccess()
 
+export async function getTodosForUser( userId: string): Promise<TodoItem[]> {
+    logger.info('get user todos function');
+    return await todosAcess.getAllTodos(userId);
+}
 export async function createTodo(newTodo:CreateTodoRequest, userId: string): Promise<TodoItem> {
     logger.info('Create todo function');
     const todoId = uuid.v4();
@@ -27,4 +32,21 @@ export async function createTodo(newTodo:CreateTodoRequest, userId: string): Pro
     };
 
     return await todosAcess.createTodoItem(newItem);
+}
+
+export async function updateTodo( userId: string, todoId:string, todoUpdate: UpdateTodoRequest): Promise<UpdateTodoRequest> {
+    logger.info('update todo function');
+   
+    return await todosAcess.updateTodoItem(todoId, userId, todoUpdate);
+}
+export async function deleteTodo( userId: string, todoId:string): Promise<void> {
+    logger.info('delete todo function');
+   
+     await todosAcess.deleteTodoItem(todoId, userId);
+}
+
+export async function createAttachmentPresignedUrl( todoId:string): Promise<string> {
+    logger.info('createAttachmentPresignedUrl function');
+   
+    return attachmentUtils.getUploadUrl(todoId);
 }
